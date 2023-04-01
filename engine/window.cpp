@@ -1,7 +1,8 @@
 #include "window.h"
+#include "texture.h"
 
 #include <stdio.h>
-#include <iostream>
+
 
 namespace engine { namespace graphics {    
 
@@ -33,9 +34,14 @@ namespace engine { namespace graphics {
                 SDL_Quit();
                 return false;
             }
+            if(IMG_Init(IMG_INIT_PNG) == 0)
+            {
+                printf("sorry sdl_image failed to init");
+                return false;
+            }
             Renderer renderer(m_window);
             m_renderer = renderer.m_renderer;
-            std::cout << m_renderer << " no :(" << std::endl;
+            
             
         }
         return true;
@@ -60,8 +66,21 @@ namespace engine { namespace graphics {
         SDL_RenderClear(m_renderer);
         Rect rect(50, 50, 200, 200);
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-        SDL_RenderDrawRect(m_renderer, &rect.m_rect);
+        SDL_RenderFillRect(m_renderer, &rect.m_rect);
         SDL_SetRenderDrawColor(m_renderer, 0,0,0,255);
+        SDL_RenderPresent(m_renderer);
+
+    }
+    void Window::makeImage()
+    {
+        Rect rect(50, 50, 150, 150);
+        SDL_RenderClear(m_renderer);
+        Texture texture(m_renderer, "engine/download.png");
+        if (texture.m_texture == NULL)
+        {
+            printf("oh");
+        }
+        SDL_RenderCopy(m_renderer, texture.m_texture, &rect.m_rect, &rect.m_rect);
         SDL_RenderPresent(m_renderer);
     }
 

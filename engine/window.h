@@ -22,6 +22,9 @@ namespace engine { namespace graphics {
             bool closed() const;
             void refresh();
             void draw();
+            void makeImage();
+            void input(SDL_Event e);
+            void displayTexture(const char *file_path);
             int loadTexture(char* fileName);
 
             inline int getWidth() const { return m_Width; }
